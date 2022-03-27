@@ -96,11 +96,11 @@ void UpdateDataRegistry(uint16_t addr, String& stId, SPROTO_MEASHEADERSTRUCT* da
 void ParseDataPacket()
 {
   SProto::DecryptData(packet);
-  uint32_t dl = *(uint32_t*)&packet[SPROTO_HEADER_POS_DATALENGTH];
-  uint16_t addr = *(uint16_t*)&packet[SPROTO_HEADER_POS_SRCADDR];
+  uint32_t dl = SProto::GetDataLength(packet);
+  uint16_t addr = SProto::GetAddrSource(packet);
   String stId = String(addr);
-  uint32_t offset = SPROTO_HEADER_LENGTH;
-  dl += SPROTO_HEADER_LENGTH; //last data byte
+  uint32_t offset = SProto::GetHeaderLength(packet);
+  dl += offset; //last data byte
   SPROTO_MEASHEADERSTRUCT dataHead;
   while (offset < dl)
   {
